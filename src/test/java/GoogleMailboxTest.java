@@ -38,14 +38,15 @@ public class GoogleMailboxTest {
 
     @AfterClass
     public void tearDown() {
-        mailBox.logOff();
+        mailBox.logOff(loginProperties.getProperty("login"));
         driver.quit();
     }
 
     @Test
-    public void testLogin() {
+    public void testOpenMailbox() {
         mailBox.openPage(mailProperties.getProperty("url"));
-        Assert.assertTrue(mailBox.login(loginProperties.getProperty("login"), loginProperties.getProperty("password")),
-                "Couldn't login");
+        mailBox.login(loginProperties.getProperty("login"), loginProperties.getProperty("password"));
+        mailBox.openGmailApp();
+        Assert.assertTrue(mailBox.getCurrentUrl().contains("#inbox"), "Can't login!");
     }
 }

@@ -17,18 +17,20 @@ public class GoogleMailboxTest {
     private WebDriver driver;
     private MailBox mailBox;
 
-    private Properties properties;
+    private Properties mailProperties;
+    private Properties loginProperties;
 
     @BeforeClass
     public void setUp() {
-        properties = new Properties();
+        mailProperties = new Properties();
+        loginProperties = new Properties();
         try {
-            properties.load(new FileInputStream("src/test/resources/mail.properties"));
+            mailProperties.load(new FileInputStream("src/test/resources/mail.properties"));
+            loginProperties.load(new FileInputStream("src/test/resources/login.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(properties.getProperty("url"));
-        System.setProperty("webdriver.chrome.driver", properties.getProperty("chromedriverPath"));
+        System.setProperty("webdriver.chrome.driver", mailProperties.getProperty("chromedriverPath"));
         this.driver = new ChromeDriver(new ChromeOptions());
         this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         mailBox = PageFactory.initElements(driver, MailBox.class);
@@ -42,8 +44,8 @@ public class GoogleMailboxTest {
 
     @Test
     public void testLogin() {
-        mailBox.openPage(properties.getProperty("url"));
-        Assert.assertTrue(mailBox.login(properties.getProperty("login"), properties.getProperty("password")),
+        mailBox.openPage(mailProperties.getProperty("url"));
+        Assert.assertTrue(mailBox.login(loginProperties.getProperty("login"), loginProperties.getProperty("password")),
                 "Couldn't login");
     }
 }

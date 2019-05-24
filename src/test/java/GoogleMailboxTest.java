@@ -38,7 +38,7 @@ public class GoogleMailboxTest {
 
     @AfterClass
     public void tearDown() {
-        mailBox.logOff(loginProperties.getProperty("login"));
+        mailBox.logOff();
         driver.quit();
     }
 
@@ -48,5 +48,18 @@ public class GoogleMailboxTest {
         mailBox.login(loginProperties.getProperty("login"), loginProperties.getProperty("password"));
         mailBox.openGmailApp();
         Assert.assertTrue(mailBox.getCurrentUrl().contains("#inbox"), "Can't login!");
+    }
+
+    @Test(priority = 1)
+    public void testSendEmail() {
+        var login = loginProperties.getProperty("login");
+        var theme = mailProperties.getProperty("theme");
+        mailBox.sendMail(login, theme, mailProperties.getProperty("message"));
+        Assert.assertTrue(mailBox.containsMail(theme, mailProperties.getProperty("messagePart")));
+    }
+
+    @Test(priority = 2)
+    public void testDeleteMail() {
+
     }
 }

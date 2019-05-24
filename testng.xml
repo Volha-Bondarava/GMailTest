@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<suite name="Simple Reporter Suite">
+    <listeners>
+        <listener class-name="Reporter"/>
+    </listeners>
+
+    <test name="Google mailbox Suite">
+        <classes>
+            <class name="GoogleMailboxTest"/>
+        </classes>
+    </test>
+</suite>

@@ -38,7 +38,7 @@ public class MailBox {
     @FindBy(xpath = "//*[@title='Google apps']")
     private WebElement googleAppsButton;
 
-    @FindBy(id = "gb23")
+    @FindBy(xpath = "//*[text()='Gmail']")
     private WebElement gmailAppButton;
 
     @FindBy(name = "to")
@@ -61,9 +61,6 @@ public class MailBox {
 
     @FindBy(xpath = "//*[@class='bog']")
     private WebElement theme;
-
-    @FindBy(xpath = "//*[contains(text(), 'пп')]")
-    private WebElement sender;
 
     @FindBy(xpath = "//*[@role='checkbox']")
     private WebElement checkBox;
@@ -145,7 +142,7 @@ public class MailBox {
         sleep(3);
     }
 
-    public void sleep(int seconds) {
+    private void sleep(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {

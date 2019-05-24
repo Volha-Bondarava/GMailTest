@@ -65,6 +65,12 @@ public class MailBox {
     @FindBy(xpath = "//*[contains(text(), 'пп')]")
     private WebElement sender;
 
+    @FindBy(xpath = "//*[@role='checkbox']")
+    private WebElement checkBox;
+
+    @FindBy(xpath = "//*[@class='T-I J-J5-Ji nX T-I-ax7 T-I-Js-Gs mA']")
+    private WebElement deleteButton;
+
     public MailBox(WebDriver driver) {
         this.driver = driver;
         this.driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
@@ -109,11 +115,7 @@ public class MailBox {
         mailSubjectField.sendKeys(subject);
         mailBodyField.sendKeys(message);
         sendButton.click();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep(3);
     }
 
     public boolean containsMail(String theme, String messagePart) {
@@ -121,8 +123,6 @@ public class MailBox {
         ArrayList<WebElement> messages = new ArrayList<>(driver.findElements(By.xpath("//*[@class='Cp']//tbody/tr")));
         for (WebElement message : messages) {
             var text = message.getText();
-            System.out.println(theme);
-            System.out.println(messagePart);
             if (text.contains(theme) && text.contains(messagePart)) {
                 return true;
             }
@@ -130,8 +130,27 @@ public class MailBox {
         return false;
     }
 
-    public void deleteMailMessage() {
+    public void deleteMailMessage(String theme, String messagePart) {
+        ArrayList<WebElement> messages = new ArrayList<>(driver.findElements(By.xpath("//*[@class='Cp']//tbody/tr")));
+        for (int i = 0; i < messages.size(); i++) {
+            var text = messages.get(i).getText();
+            if (text.contains(theme) && text.contains(messagePart)) {
+                var xpath = String.format("//*[@class='Cp']//tbody/tr[%s]//*[@role='checkbox']", i + 1);
+                driver.findElement(By.xpath(xpath)).click();
+            }
+        }
+        sleep(3);
+        wait.until(ExpectedConditions.visibilityOf(deleteButton));
+        deleteButton.click();
+        sleep(3);
+    }
 
+    public void sleep(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

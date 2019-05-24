@@ -60,6 +60,9 @@ public class GoogleMailboxTest {
 
     @Test(priority = 2)
     public void testDeleteMail() {
-
+        var theme = mailProperties.getProperty("theme");
+        var messagePart = mailProperties.getProperty("messagePart");
+        mailBox.deleteMailMessage(theme, messagePart);
+        Assert.assertFalse(mailBox.containsMail(theme, messagePart));
     }
 }

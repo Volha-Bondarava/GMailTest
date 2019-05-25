@@ -5,6 +5,13 @@
     </listeners>
 
     <test name="Google mailbox Suite">
+        <groups>
+            <run>
+                <include name="open-test"/>
+                <include name="send-test"/>
+                <exclude name="delete-test"/>
+            </run>
+        </groups>
         <classes>
             <class name="GoogleMailboxTest"/>
         </classes>

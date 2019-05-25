@@ -42,7 +42,7 @@ public class GoogleMailboxTest {
         driver.quit();
     }
 
-    @Test
+    @Test (groups = {"open-test"})
     public void testOpenMailbox() {
         mailBox.openPage(mailProperties.getProperty("url"));
         mailBox.login(loginProperties.getProperty("login"), loginProperties.getProperty("password"));
@@ -50,7 +50,7 @@ public class GoogleMailboxTest {
         Assert.assertTrue(mailBox.getCurrentUrl().contains("#inbox"), "Can't login!");
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = {"send-test"})
     public void testSendEmail() {
         var login = loginProperties.getProperty("login");
         var theme = mailProperties.getProperty("theme");
@@ -58,7 +58,7 @@ public class GoogleMailboxTest {
         Assert.assertTrue(mailBox.containsMail(theme, mailProperties.getProperty("messagePart")));
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, groups = "delete-test")
     public void testDeleteMail() {
         var theme = mailProperties.getProperty("theme");
         var messagePart = mailProperties.getProperty("messagePart");
